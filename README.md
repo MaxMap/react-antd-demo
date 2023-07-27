@@ -6,7 +6,7 @@
 {
   "antd": "^5.7.3",
   "react": "^18.2.0",
-  "typescript": "^4.9.5",
+  "typescript": "^5.1.6",
   "react-router-dom": "^6.14.2"
 }
 ```
