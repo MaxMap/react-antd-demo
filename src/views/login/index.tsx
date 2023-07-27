@@ -1,5 +1,5 @@
-import { Button } from 'antd';
-import {useNavigate} from 'react-router-dom'
+import { Button } from 'antd'
+import { useNavigate } from 'react-router-dom'
 function Login() {
   const navigate = useNavigate()
 
@@ -9,9 +9,11 @@ function Login() {
   return (
     <div className="App">
       Login页面
-      <Button type="primary" onClick={goHome}>跳转主页</Button>
+      <Button type="primary" onClick={goHome}>
+        跳转主页
+      </Button>
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login
