@@ -25,3 +25,67 @@
 
 [react-router-dom_v6](https://reactrouter.com/)
 [mobx_v6](https://zh.mobx.js.org/)
+
+
+## mobx 使用案例
+
+`@/src/store/rootStore.ts`
+```ts
+
+import { makeObservable, observable, computed,action } from 'mobx'
+
+type Token = string | undefined | null
+
+ class RootStore {
+    token: Token = undefined
+    
+    constructor() {
+        makeObservable(this, {
+            token: observable,
+            getToken: computed,
+            setToken: action
+        })
+    }
+
+    get getToken():Token {
+        return this.token
+    }
+
+    setToken(val:string):void {
+        this.token = val
+    }
+}
+
+const useRootStore = new RootStore()
+
+export default useRootStore
+```
+`@/views/home/index.tsx`
+```ts
+import useRootStore from '@/store/rootStore'
+import { Input } from 'antd';
+import React, { useState, useEffect } from 'react';
+function Home() {
+  const [val, setValue] = useState<string>('')
+  useEffect(() => {
+    setValue(useRootStore.token || '')
+  }, [])
+
+  const changeInput = (e: string) => {
+    useRootStore.setToken(e)
+    setValue(e)
+  }
+
+  return (<div className="App">
+    <p>token:{useRootStore.token}</p>
+    <Input placeholder="Basic usage" value={val} onChange={(e) => changeInput(e.target.value)} />
+  </div>)
+}
+
+export default Home
+
+```
+
+### 成功展示
+
+![monx-demo.png](./readme/mobx-demo.png)
