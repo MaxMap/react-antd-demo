@@ -1,0 +1,23 @@
+.loginPage {
+    background-color: #f4f2f2;
+
+    .main-content {
+        width: 800px;
+        height: 600px;
+        display: flex;
+        align-items: center;
+
+
+        .gologin {
+            width: 400px;
+            height: 400px;
+        }
+
+        .main-form {
+            width: 400px;
+            padding: 16px;
+            background-color: #fff;
+            border-radius: 16px;
+        }
+    }
+}
