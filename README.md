@@ -60,8 +60,10 @@ const useRootStore = new RootStore()
 
 export default useRootStore
 ```
+
 `@/views/home/index.tsx`
-```ts
+
+```tsx
 import useRootStore from '@/store/rootStore'
 import { Input } from 'antd';
 import React, { useState, useEffect } from 'react';
