@@ -2,7 +2,7 @@ import { makeObservable, observable, computed,action } from 'mobx'
 
 type Token = string | undefined | null
 
-export class RootStore {
+ class RootStore {
     token: Token = undefined
     
     constructor() {
@@ -21,3 +21,7 @@ export class RootStore {
         this.token = val
     }
 }
+
+const useRootStore = new RootStore()
+
+export default useRootStore
