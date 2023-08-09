@@ -1,8 +1,19 @@
 import { Button, Checkbox, Form, Input } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'
 import gologinImg from './image/gologin.png'
 import './css/index.scss'
 function Login() {
+  type FieldType = {
+    username?: string;
+    password?: string;
+    remember?: string;
+  };
+
+  const rules = {
+    userName: [{ required: true, message: '请输入用户名！' }],
+    password: [{ required: true, message: '请输入密码！' }]
+  }
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
@@ -12,11 +23,7 @@ function Login() {
     console.log('Failed:', errorInfo);
   };
 
-  type FieldType = {
-    username?: string;
-    password?: string;
-    remember?: string;
-  };
+
 
   const navigate = useNavigate()
 
@@ -31,43 +38,45 @@ function Login() {
           <p className='title'>登录</p>
           <Form
             name="loginForm"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 600 }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            autoComplete="off"
           >
-            {/* <Form.Item<FieldType>
-              label="Username"
+            <Form.Item<FieldType>
               name="username"
-              rules={[{ required: true, message: 'Please input your username!' }]}
+              rules={rules.userName}
             >
-              <Input />
-            </Form.Item> */}
+              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" maxLength={64} />
+            </Form.Item>
 
-            {/* <Form.Item<FieldType>
-              label="Password"
+            <Form.Item<FieldType>
               name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={rules.password}
             >
-              <Input.Password />
-            </Form.Item> */}
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                type="password"
+                placeholder="Password"
+                maxLength={64}
+              />
+            </Form.Item>
 
-            {/* <Form.Item<FieldType>
-              name="remember"
-              valuePropName="checked"
-              wrapperCol={{ offset: 8, span: 16 }}
-            >
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item> */}
+            <Form.Item>
+              <Form.Item<FieldType> name="remember" valuePropName="checked" noStyle>
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item>
 
-            {/* <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
-                Submit
+              <a className="login-form-forgot" href="">
+                Forgot password
+              </a>
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                Log in
               </Button>
-            </Form.Item> */}
+              Or <a href="">register now!</a>
+            </Form.Item>
           </Form>
         </div>
       </div>

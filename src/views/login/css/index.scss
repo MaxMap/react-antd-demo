@@ -2,7 +2,7 @@
     background-color: #f4f2f2;
 
     .main-content {
-        width: 800px;
+        width: 900px;
         height: 600px;
         display: flex;
         align-items: center;
@@ -11,6 +11,7 @@
         .gologin {
             width: 400px;
             height: 400px;
+            margin-right: 100px;
         }
 
         .main-form {
@@ -18,6 +19,24 @@
             padding: 16px;
             background-color: #fff;
             border-radius: 16px;
+
+            .title {
+                padding: 10px 0;
+                font-size: 34px;
+                margin-bottom: 10px;
+            }
+
+            .ant-input-affix-wrapper {
+                padding: 8px 11px;
+            }
+
+            .login-form-forgot {
+                float: right;
+            }
+
+            .login-form-button {
+                width: 100%;
+            }
         }
     }
 }
