@@ -1,13 +1,11 @@
 import { makeObservable, observable, computed,action } from 'mobx'
-import useLocalStorageState from 'use-local-storage-state'
+import {local} from '@/utils/useStorage'
 
 
 type Token = string | undefined | null
 
 
-const [localToken, setLocalToken] = useLocalStorageState('token', {
-    defaultValue: ''
-})
+
  class RootStore {
     token: Token = undefined
     
@@ -19,13 +17,17 @@ const [localToken, setLocalToken] = useLocalStorageState('token', {
         })
     }
 
-    get getToken():Token {
-        return this.token || localToken
+     get getToken(): Token {
+         if (!this.token) {
+            this.token = local.get('token')
+         }
+         return this.token
     }
 
     setToken(val:string):void {
         this.token = val
-        setLocalToken(val)
+        local.set('token',val)
+        // setLocalToken(val)
     }
 }
 

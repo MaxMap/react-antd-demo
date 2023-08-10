@@ -1,34 +1,33 @@
-import React from 'react';
-
-/**
- * localStorage 持久化数据
- *
- * @param {*} key
- * @param {*} initVal 初始值，支持数组，对象
- * @return {*}
- */
-const useStateWithLocalStorage = (key:string, initVal:any) => {
-
-  let preStr;
-  try {
-    let localStr = localStorage.getItem(key);
-    if (localStr === undefined) {
-      localStr = null; // 避免解析时报错，SyntaxError
-    }
-    preStr = JSON.parse(localStr as string); // 反序列化
-  } catch (error) {
-    console.error('useStateWithLocalStorage :>> ', error);
+class Local {
+  get(label:string) {
+    return localStorage.getItem(label)
   }
+  set(label:string,value:string) {
+    localStorage.setItem(label, value)
+  }
+  remove(label:string) {
+    localStorage.removeItem(label)
+  }
+  clear() {
+    localStorage.clear()
+  }
+}
 
-  let [value, setValue] = React.useState(preStr || initVal);
+export const local = new Local()
 
-  React.useEffect(() => {
-    localStorage.setItem(String(key), JSON.stringify(value)); // 序列化
-  }, [value]);
+export class Session {
+  get(label:string) {
+    return sessionStorage.getItem(label) || ''
+  }
+  set(label:string,value:string) {
+    sessionStorage.setItem(label, value)
+  }
+  remove(label:string) {
+    sessionStorage.removeItem(label)
+  }
+  clear() {
+    sessionStorage.clear()
+  }
+}
 
-  return [value, setValue];
-};
-
-export {
-    useStateWithLocalStorage
-};
+export const session = new Session()

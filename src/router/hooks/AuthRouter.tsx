@@ -2,11 +2,7 @@
 // 判断token是否存在（如果存在跳转主页，如果不存在跳转登录页面）
 import { Navigate } from "react-router-dom"
 import React from "react";
-
-// 获取token方法
-const getToken = () => {
-    return localStorage.getItem("token")
-}
+import { local } from "@/utils/useStorage";
 
 
 
@@ -15,8 +11,7 @@ const getToken = () => {
 
 function AuthRouter({ children }: any) {
     // 获取token
-    const token = getToken()
-    console.log(token, "agagag");
+    const token = local.get('token')
     // 判断token是否存在 存在直接渲染主页面
     if (token) {
         return <>{children}</>

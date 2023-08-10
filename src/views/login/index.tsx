@@ -3,33 +3,40 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'
 import gologinImg from './image/gologin.png'
 import './css/index.scss'
+import useAuthStore from '@/store/authStore';
+import useRootStore from '@/store/rootStore';
 function Login() {
   type FieldType = {
     username?: string;
     password?: string;
-    remember?: string;
+    remember?: boolean;
   };
+
+  const navigate = useNavigate()
 
   const rules = {
     userName: [{ required: true, message: '请输入用户名！' }],
     password: [{ required: true, message: '请输入密码！' }]
   }
 
+  /* 提交表单且数据验证成功后回调事件 */
   const onFinish = (values: any) => {
-    console.log('Success:', values);
+    // console.log('Success:', values);
+    for (const i in values) {
+      if (typeof values[i] === 'string') values[i] = values[i].trim()
+    }
+    useAuthStore.login(values).then(res => {
+      if (!res) return false
+      useRootStore.setToken(res.token)
+      navigate('/')
+    })
   };
 
+  /* 提交表单且数据验证失败后回调事件 */
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
 
-
-
-  const navigate = useNavigate()
-
-  const goHome = () => {
-    navigate('/')
-  }
   return (
     <div className="full-sreen loginPage flexCenter">
       <div className='main-content'>
@@ -80,9 +87,6 @@ function Login() {
           </Form>
         </div>
       </div>
-      {/* <Button type="primary" onClick={goHome}>
-        跳转主页
-      </Button> */}
     </div>
   )
 }
