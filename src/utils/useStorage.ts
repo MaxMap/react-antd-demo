@@ -10,6 +10,8 @@ class Local {
   }
   clear() {
     localStorage.clear()
+    console.log('清除缓存');
+    
   }
 }
 

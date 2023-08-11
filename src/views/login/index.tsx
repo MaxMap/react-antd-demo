@@ -5,12 +5,18 @@ import gologinImg from './image/gologin.png'
 import './css/index.scss'
 import useAuthStore from '@/store/authStore';
 import useRootStore from '@/store/rootStore';
+import { useEffect } from 'react'
+import { local } from '@/utils/useStorage';
 function Login() {
   type FieldType = {
     username?: string;
     password?: string;
     remember?: boolean;
   };
+
+  useEffect(() => {
+    local.clear()
+  }, [])
 
   const navigate = useNavigate()
 

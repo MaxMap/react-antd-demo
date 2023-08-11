@@ -5,6 +5,7 @@ const Login = lazy(() => import('@/views/login/index'))
 const Layout = lazy(() => import('@/layout/index'))
 const Home = lazy(() => import('@/views/home/index'))
 const NotFound = lazy(() => import('@/views/notFound/index'))
+const User = lazy(() => import('@/views/user/index'))
 
 const routerList = createBrowserRouter([
   {
@@ -14,7 +15,11 @@ const routerList = createBrowserRouter([
       {
         index: true,
         element: <Home />
-      }
+      },
+      {
+        path: 'users',
+        element: <User />
+      },
     ]
   },
   {
