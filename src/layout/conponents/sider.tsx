@@ -6,8 +6,8 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import useLayoutStore from '@/store/modules/layoutStore'
+import { observer } from 'mobx-react-lite'
 import '../css/sider.scss'
-import { getMenu } from '../../api/layout.api';
 import type { MenuProps } from 'antd';
 import { flattenTree } from "@/utils/helpers";
 import { useNavigate } from 'react-router-dom'
@@ -120,4 +120,4 @@ const Sider = (porps: { collapsed: any; }) => {
     </Sider>)
 }
 
-export default Sider
+export default observer(Sider)

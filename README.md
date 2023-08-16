@@ -29,62 +29,99 @@
 
 ## mobx 使用案例
 
-`@/src/store/rootStore.ts`
+`@/src/store/moduls/authStore.ts`
+
 ```ts
 
-import { makeObservable, observable, computed,action } from 'mobx'
+import { makeAutoObservable } from 'mobx'
+import { authApi } from '@/api/index'
+import { makePersistable } from 'mobx-persist-store'
 
 type Token = string | undefined | null
 
- class RootStore {
-    token: Token = undefined
+class AuthStore { 
     
+    token: Token = undefined
     constructor() {
-        makeObservable(this, {
-            token: observable,
-            getToken: computed,
-            setToken: action
+        makeAutoObservable(this)
+        makePersistable(this, {
+            name: 'AuthStore', // 存储到localStorage当中的key值是什么，此处为字符串string；
+            properties: ['token'], // 需要持久化的数据是什么，此数据需要为上面声明了的变量，并且传值方式为[string]
+            storage: window.localStorage, // 你的数据需要用那种方式存储，常见的就是localStorage
         })
     }
 
-    get getToken():Token {
-        return this.token
+    get getToken(): Token {
+        //  if (!this.token) {
+        //     this.token = local.get('token')
+        //  }
+         return this.token
     }
 
     setToken(val:string):void {
         this.token = val
+        // local.set('token',val)
+        // setLocalToken(val)
+    }
+
+
+    /* 登录 */
+     async login(data:object) {
+         const result = await authApi.login(data)         
+         if (!result) return false
+         
+        return result.data
     }
 }
 
-const useRootStore = new RootStore()
+const useAuthStore = new AuthStore()
 
-export default useRootStore
+export default useAuthStore
 ```
 
-`@/views/home/index.tsx`
+`@/src/store/index.ts`
 
-```tsx
-import useRootStore from '@/store/rootStore'
-import { Input } from 'antd';
-import React, { useState, useEffect } from 'react';
-function Home() {
-  const [val, setValue] = useState<string>('')
-  useEffect(() => {
-    setValue(useRootStore.token || '')
-  }, [])
+```ts
+import React from 'react'
+import { makeAutoObservable } from 'mobx'
+import { makePersistable } from 'mobx-persist-store'
+import useAuthStore from './modules/authStore'
 
-  const changeInput = (e: string) => {
-    useRootStore.setToken(e)
-    setValue(e)
-  }
+ class RootStore {
+     
+     useAuthStore = useAuthStore
+    
+    constructor() {
+        makeAutoObservable (this)        
+    }
 
-  return (<div className="App">
-    <p>token:{useRootStore.token}</p>
-    <Input placeholder="Basic usage" value={val} onChange={(e) => changeInput(e.target.value)} />
-  </div>)
+    
 }
 
-export default Home
+const rootStore = new RootStore()
+// 这里可以使用React context 完成统一方法的封装需求
+const context = React.createContext(rootStore)
+// 封装useStore方法，业务组件调用useStore方法便就可以直接获取rootStore
+const useStore = () => React.useContext(context)
+
+export default useStore
+```
+
+
+`@/views/login/index.tsx`
+
+```tsx
+import { observer } from 'mobx-react-lite'
+import useStore from '@/store'
+
+function Login() {
+  const { useAuthStore } = useStore()
+
+  return (<div>{useAuthStore.getToken}</div>)
+
+}
+
+export default observer(Login)
 
 ```
 

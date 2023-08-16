@@ -1,4 +1,5 @@
 import useStore from '@/store'
+import { observer } from 'mobx-react-lite'
 import { Input } from 'antd';
 import React, { useState, useEffect } from 'react';
 function Home() {
@@ -19,4 +20,4 @@ function Home() {
   </div>)
 }
 
-export default Home
+export default observer(Home)
