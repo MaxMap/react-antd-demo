@@ -3,10 +3,10 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'
 import gologinImg from './image/gologin.png'
 import './css/index.scss'
-import useAuthStore from '@/store/authStore';
-import useRootStore from '@/store/rootStore';
+import { observer } from 'mobx-react-lite'
+import useStore from '@/store'
 import { useEffect } from 'react'
-import { local } from '@/utils/useStorage';
+import { local, session } from '@/utils/useStorage';
 function Login() {
   type FieldType = {
     username?: string;
@@ -14,8 +14,11 @@ function Login() {
     remember?: boolean;
   };
 
+  const { useAuthStore } = useStore()
+
   useEffect(() => {
     local.clear()
+    session.clear()
   }, [])
 
   const navigate = useNavigate()
@@ -33,7 +36,7 @@ function Login() {
     }
     useAuthStore.login(values).then(res => {
       if (!res) return false
-      useRootStore.setToken(res.token)
+      useAuthStore.setToken(res.token)
       navigate('/')
     })
   };
@@ -97,4 +100,4 @@ function Login() {
   )
 }
 
-export default Login
+export default observer(Login)

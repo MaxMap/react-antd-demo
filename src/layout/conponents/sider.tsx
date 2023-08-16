@@ -1,11 +1,11 @@
-import React, { useState, useEffect, DetailedHTMLProps, HTMLAttributes } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     WindowsOutlined,
     TeamOutlined,
     AppstoreAddOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import useLayoutStore from '@/store/layoutStore'
+import useLayoutStore from '@/store/modules/layoutStore'
 import '../css/sider.scss'
 import { getMenu } from '../../api/layout.api';
 import type { MenuProps } from 'antd';
